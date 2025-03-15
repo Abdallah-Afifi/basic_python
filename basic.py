@@ -171,6 +171,14 @@ class Parser:
             return NumberNode(tok)
     
 
+    
+    def bin_op(self, func, ops):
+        left = func()
+        while self.current_tok.type_ in ops:
+            op_tok = self.current_tok
+            self.advance()
+            right = func()
+            left = BinOpNode(left, op_tok, right)
 
 
 # Run function
