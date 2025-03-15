@@ -146,6 +146,21 @@ class BinOpNode:
         return f'({self.left_node}, {self.op_tok}, {self.right_node})'
 
 
+# Parser class
+
+class Parser:
+    def __init__(self, tokens):
+        self.tokens = tokens
+        self.tok_idx = -1
+        self.advance()
+    
+    def advance(self):
+        self.tok_idx += 1
+        if self.tok_idx < len(self.tokens):
+            self.current_tok = self.tokens[self.tok_idx]
+        return self.current_tok
+    
+
 
 
 # Run function
