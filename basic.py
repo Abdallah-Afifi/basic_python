@@ -170,6 +170,9 @@ class Parser:
             self.advance()
             return NumberNode(tok)
     
+    def term(self):
+        return self.bin_op(self.factor, (TT_MUL, TT_DIV))
+    
 
     
     def bin_op(self, func, ops):
