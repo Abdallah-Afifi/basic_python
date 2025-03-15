@@ -230,7 +230,7 @@ class Parser:
         while self.current_tok.type_ in ops:
             op_tok = self.current_tok
             res.register(self.advance())
-            right = res.resgiter(func())
+            right = res.register(func())
             if res.error: return res
             left = BinOpNode(left, op_tok, right)
         return res.success(left)
