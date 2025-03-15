@@ -20,7 +20,9 @@ class Error:
         self.details = details
     
     def as_string(self):
-        return f'{self.error_name}: {self.details}'
+        result = f'{self.error_name}: {self.details}'
+        result += f'File {self.pos_start.fn}, line {self.pos_start.ln + 1}'
+        return result
     
 # IllegalCharError class
 class IllegalCharError(Error):
