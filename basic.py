@@ -1,6 +1,6 @@
 # Constants
 
-
+DIGITS = '0123456789'
 
 TT_INT = 'INT'
 TT_FLOAT = 'FLOAT'
@@ -42,6 +42,8 @@ class Lexer:
         while self.current_char != None:
             if self.current_char in ' \t':
                 self.advance()
+            elif self.current_char in DIGITS:
+                tokens.append(self.make_number())
             elif self.current_char == '+':
                 tokens.append(Token(TT_PLUS, '+'))
                 self.advance()
