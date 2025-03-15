@@ -127,6 +127,16 @@ class Lexer:
         else:
             return Token(TT_FLOAT, float(num_str))
         
+# Nodes for syntax Tree
+
+class NumberNode:
+    def __init__(self, tok):
+        self.tok = tok
+    
+    def __repr__(self):
+        return f'{self.tok}'   
+
+
 
 # Run function
 def run(fn, text):
