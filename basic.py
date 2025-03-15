@@ -1,5 +1,7 @@
 # Constants
 
+
+
 TT_INT = 'INT'
 TT_FLOAT = 'FLOAT'
 TT_PLUS = 'PLUS'
@@ -34,3 +36,31 @@ class Lexer:
     def advance(self):
         self.pos += 1
         self.current_char = self.text[self.pos] if self.pos < len(self.text) else None
+
+    def make_tokens(self):
+        tokens = []
+        while self.current_char != None:
+            if self.current_char in ' \t':
+                self.advance()
+            elif self.current_char == '+':
+                tokens.append(Token(TT_PLUS, '+'))
+                self.advance()
+            elif self.current_char == '-':
+                tokens.append(Token(TT_MINUS, '-'))
+                self.advance()
+            elif self.current_char == '*':
+                tokens.append(Token(TT_MUL, '*'))
+                self.advance()
+            elif self.current_char == '/':
+                tokens.append(Token(TT_DIV, '/'))
+                self.advance()
+            elif self.current_char == '(':
+                tokens.append(Token(TT_LPAREN, '('))
+                self.advance()
+            elif self.current_char == ')':
+                tokens.append(Token(TT_RPAREN, ')'))
+                self.advance()
+            else:
+                print(f"Illegal character '{self.current_char}'")
+                return []
+        return tokens
