@@ -170,7 +170,7 @@ class UnaryOpNode:
     def __init__(self, op_tok, node):
         self.op_tok = op_tok
         self.node = node
-        
+
     def __repr__(self):
         return f'({self.op_tok}, {self.node})'
 
@@ -220,7 +220,13 @@ class Parser:
     def factor(self):
         res = ParseResult()
         tok = self.current_tok
-        if tok.type_ in (TT_INT, TT_FLOAT):
+
+        if tok.type_ in (TT_PLUS, TT_MINUS):
+            res.register(self.advance())
+            factor = res.register(self.factor())
+            if res.error: return res
+            return res.success(UnaryOpNode(tok, factor))
+        elif tok.type_ in (TT_INT, TT_FLOAT):
             res.register(self.advance())
             return res.success(NumberNode(tok))
         return res.failure(InvalidSyntaxError(tok.pos_start, tok.pos_end, 'Expected int or float'))
