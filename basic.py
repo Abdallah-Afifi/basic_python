@@ -132,6 +132,7 @@ class Lexer:
     def make_number(self):
         num_str = ''
         dot_count = 0
+        pos_start = self.pos.copy()
         while self.current_char != None and self.current_char in DIGITS + '.':
             if self.current_char == '.':
                 if dot_count == 1: break
@@ -141,9 +142,9 @@ class Lexer:
                 num_str += self.current_char
             self.advance()
         if dot_count == 0:
-            return Token(TT_INT, int(num_str))
+            return Token(TT_INT, int(num_str), pos_start, self.pos)
         else:
-            return Token(TT_FLOAT, float(num_str))
+            return Token(TT_FLOAT, float(num_str), pos_start, self.pos)
         
 # Nodes for syntax Tree
 
