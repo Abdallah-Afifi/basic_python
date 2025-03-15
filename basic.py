@@ -250,4 +250,4 @@ def run(fn, text):
     parser = Parser(tokens)
     ast = parser.parse()
 
-    return ast, None
+    return ast.node, ast.error
