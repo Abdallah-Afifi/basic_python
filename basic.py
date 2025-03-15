@@ -29,7 +29,7 @@ class IllegalCharError(Error):
 # Token class
 
 class Token:
-    def __init__(self, type_, value):
+    def __init__(self, type_, value=None):
         self.type_ = type_
         self.value = value
     
