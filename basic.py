@@ -170,6 +170,15 @@ class ParseResult:
     def __init__(self):
         self.error = None
         self.node = None
+
+    def register(self, res):
+        if isinstance(res, ParseResult):
+            if res.error: self.error = res.error
+            return res.node
+        return res
+    
+
+
     
 
 
