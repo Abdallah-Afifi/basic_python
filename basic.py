@@ -164,6 +164,12 @@ class Parser:
         res = self.expr()
         return res
     
+    def factor(self):
+        tok = self.current_tok
+        if tok.type_ in (TT_INT, TT_FLOAT):
+            self.advance()
+            return NumberNode(tok)
+    
 
 
 
