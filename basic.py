@@ -209,10 +209,12 @@ class Parser:
         return res
     
     def factor(self):
+        res = ParseResult()
         tok = self.current_tok
         if tok.type_ in (TT_INT, TT_FLOAT):
-            self.advance()
-            return NumberNode(tok)
+            res.register(self.advance())
+            return res.success(NumberNode(tok))
+        return res.failure(InvalidSyntaxError(tok.pos_start, tok.pos_end, 'Expected int or float'))
     
     def term(self):
         return self.bin_op(self.factor, (TT_MUL, TT_DIV))
