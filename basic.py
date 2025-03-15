@@ -15,6 +15,7 @@ TT_MUL = 'MUL'
 TT_DIV = 'DIV'
 TT_LPAREN = 'LPAREN'
 TT_RPAREN = 'RPAREN'
+TT_EOF = 'EOF'
 
 # Error class
 class Error:
@@ -127,6 +128,7 @@ class Lexer:
                 char = self.current_char
                 self.advance()
                 return [], IllegalCharError(pos_start, self.pos, "'" + char + "'")
+        tokens.append(Token(TT_EOF, pos_start=self.pos))
         return tokens, None
     
     def make_number(self):
