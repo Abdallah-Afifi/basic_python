@@ -13,7 +13,9 @@ TT_RPAREN = 'RPAREN'
 
 # Error class
 class Error:
-    def __init__(self, error_name, details):
+    def __init__(self, pos_start, pos_end, error_name, details):
+        self.pos_start = pos_start
+        self.pos_end = pos_end
         self.error_name = error_name
         self.details = details
     
@@ -28,10 +30,12 @@ class IllegalCharError(Error):
 
 # Position class
 class Position:
-    def __init__(self, idx, ln, col):
+    def __init__(self, idx, ln, col, fn, ftxt):
         self.idx = idx
         self.ln = ln
         self.col = col
+        self.fn = fn
+        self.ftxt = ftxt
     
     def advance(self, current_char):
         self.idx += 1
@@ -44,7 +48,7 @@ class Position:
         return self
     
     def copy(self):
-        return Position(self.idx, self.ln, self.col)
+        return Position(self.idx, self.ln, self.col, self.fn, self.ftxt)
 
 
 # Token class
@@ -62,15 +66,16 @@ class Token:
 # Lexer class
 
 class Lexer:
-    def __init__(self, text):
+    def __init__(self, fn, text):
+        self.fn = fn
         self.text = text
-        self.pos = -1
+        self.pos = Position(-1, 0, -1, fn, text)
         self.current_char = None
         self.advance()
 
     def advance(self):
-        self.pos += 1
-        self.current_char = self.text[self.pos] if self.pos < len(self.text) else None
+        self.pos.advance()
+        self.current_char = self.text[self.pos.idx] if self.pos.idx < len(self.text) else None
 
     def make_tokens(self):
         tokens = []
@@ -98,9 +103,10 @@ class Lexer:
                 tokens.append(Token(TT_RPAREN))
                 self.advance()
             else:
+                pos_start = self.pos.copy()
                 char = self.current_char
                 self.advance()
-                return [], IllegalCharError("'" + char + "'")
+                return [], IllegalCharError(pos_start, self.pos, "'" + char + "'")
         return tokens, None
     
     def make_number(self):
