@@ -177,6 +177,14 @@ class ParseResult:
             return res.node
         return res
     
+    def success(self, node):
+        self.node = node
+        return self
+    
+    def failure(self, error):
+        self.error = error
+        return self
+    
 
 
     
