@@ -173,7 +173,8 @@ class Parser:
     def term(self):
         return self.bin_op(self.factor, (TT_MUL, TT_DIV))
     
-
+    def expr(self):
+        return self.bin_op(self.term, (TT_PLUS, TT_MINUS))
     
     def bin_op(self, func, ops):
         left = func()
