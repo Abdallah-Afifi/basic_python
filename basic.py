@@ -59,27 +59,28 @@ class Lexer:
             elif self.current_char in DIGITS:
                 tokens.append(self.make_number())
             elif self.current_char == '+':
-                tokens.append(Token(TT_PLUS, '+'))
+                tokens.append(Token(TT_PLUS))
                 self.advance()
             elif self.current_char == '-':
-                tokens.append(Token(TT_MINUS, '-'))
+                tokens.append(Token(TT_MINUS))
                 self.advance()
             elif self.current_char == '*':
-                tokens.append(Token(TT_MUL, '*'))
+                tokens.append(Token(TT_MUL))
                 self.advance()
             elif self.current_char == '/':
-                tokens.append(Token(TT_DIV, '/'))
+                tokens.append(Token(TT_DIV))
                 self.advance()
             elif self.current_char == '(':
-                tokens.append(Token(TT_LPAREN, '('))
+                tokens.append(Token(TT_LPAREN))
                 self.advance()
             elif self.current_char == ')':
-                tokens.append(Token(TT_RPAREN, ')'))
+                tokens.append(Token(TT_RPAREN))
                 self.advance()
             else:
-                print(f"Illegal character '{self.current_char}'")
-                return []
-        return tokens
+                char = self.current_char
+                self.advance()
+                return [], IllegalCharError("'" + char + "'")
+        return tokens, None
     
     def make_number(self):
         num_str = ''
