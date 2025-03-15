@@ -19,6 +19,11 @@ class Error:
     
     def as_string(self):
         return f'{self.error_name}: {self.details}'
+    
+# IllegalCharError class
+class IllegalCharError(Error):
+    def __init__(self, details):
+        super().__init__('Illegal Character', details)
 
 
 # Token class
