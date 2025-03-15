@@ -183,6 +183,7 @@ class Parser:
             self.advance()
             right = func()
             left = BinOpNode(left, op_tok, right)
+        return left
 
 
 # Run function
