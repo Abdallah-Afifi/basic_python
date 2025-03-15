@@ -223,13 +223,16 @@ class Parser:
         return self.bin_op(self.term, (TT_PLUS, TT_MINUS))
     
     def bin_op(self, func, ops):
-        left = func()
+        res = ParseResult()
+        left = res.register(func())
+        if res.error: return res
         while self.current_tok.type_ in ops:
             op_tok = self.current_tok
-            self.advance()
-            right = func()
+            res.register(self.advance())
+            right = res.resgiter(func())
+            if res.error: return res
             left = BinOpNode(left, op_tok, right)
-        return left
+        return res.success(left)
 
 
 # Run function
