@@ -229,6 +229,15 @@ class Parser:
         elif tok.type_ in (TT_INT, TT_FLOAT):
             res.register(self.advance())
             return res.success(NumberNode(tok))
+        elif tok.type_ == TT_LPAREN:
+            res.register(self.advance())
+            expr = res.register(self.expr())
+            if res.error: return res
+            if self.current_tok.type_ == TT_RPAREN:
+                res.register(self.advance())
+                return res.success(expr)
+            else:
+                return res.failure(InvalidSyntaxError(tok.pos_start, tok.pos_end, "Expected ')'"))
         return res.failure(InvalidSyntaxError(tok.pos_start, tok.pos_end, 'Expected int or float'))
     
     def term(self):
