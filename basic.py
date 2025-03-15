@@ -189,10 +189,6 @@ class ParseResult:
         return self
     
 
-
-    
-
-
 # Parser class
 
 class Parser:
@@ -209,6 +205,8 @@ class Parser:
     
     def parse(self):
         res = self.expr()
+        if not res.error and self.current_tok.type_ != TT_EOF:
+            return res.failure(InvalidSyntaxError(self.current_tok.pos_start, self.current_tok.pos_end, 'Expected int or float'))
         return res
     
     def factor(self):
