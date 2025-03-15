@@ -11,6 +11,15 @@ TT_DIV = 'DIV'
 TT_LPAREN = 'LPAREN'
 TT_RPAREN = 'RPAREN'
 
+# Error class
+class Error:
+    def __init__(self, error_name, details):
+        self.error_name = error_name
+        self.details = details
+    
+    def as_string(self):
+        return f'{self.error_name}: {self.details}'
+
 
 # Token class
 
